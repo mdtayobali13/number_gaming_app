@@ -104,12 +104,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   icon: Icons.person_outline_rounded,
                   title: "Full Name",
                   hintText: "Enter your name",
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return "Enter your name";
-                    }
-                    return null;
-                  },
                   onChanged: (v) {
                     ref.read(signUpProvider.notifier).stateUpdate(name: v);
                   },
@@ -124,16 +118,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   title: "Email",
                   hintText: "Enter your email",
                   keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return "Enter your email";
-                    }
-                    final emailRegex = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$');
-                    if (!emailRegex.hasMatch(value)) {
-                      return "Enter a valid email address";
-                    }
-                    return null;
-                  },
                   onChanged: (v) {
                     ref.read(signUpProvider.notifier).stateUpdate(email: v);
                   },
@@ -162,15 +146,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       });
                     },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Enter your password";
-                    }
-                    if (value.length < 6) {
-                      return "Password must be at least 6 characters";
-                    }
-                    return null;
-                  },
                   onChanged: (v) {
                     ref.read(signUpProvider.notifier).stateUpdate(password: v);
                   },
@@ -189,12 +164,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       child: ElevatedButton(
                         onPressed: isLoading
                             ? null
-                            : () async {
-                                if (formKey.currentState?.validate() ?? false) {
-                                  await ref
-                                      .read(signUpProvider.notifier)
-                                      .customerSignUp(formKey: formKey);
-                                }
+                            : () {
+                                AppRoutes.instance.go(AppRoutesKey.instance.signInScreen);
                               },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF4F46E5),
@@ -257,7 +228,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   height: 56,
                   child: OutlinedButton(
                     onPressed: () {
-                      // Google sign in action
+                      AppRoutes.instance.go(AppRoutesKey.instance.homeScreen);
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.5),
@@ -336,7 +307,6 @@ class _StyledInputField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final TextInputType? keyboardType;
-  final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
 
   const _StyledInputField({
@@ -347,7 +317,6 @@ class _StyledInputField extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.keyboardType,
-    this.validator,
     this.onChanged,
   });
 
@@ -399,7 +368,6 @@ class _StyledInputField extends StatelessWidget {
                   controller: controller,
                   obscureText: obscureText,
                   keyboardType: keyboardType,
-                  validator: validator,
                   onChanged: onChanged,
                   style: const TextStyle(
                     color: Color(0xFF0F172A),

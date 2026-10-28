@@ -5,7 +5,6 @@ import 'package:number_gaminng_app/routes/app_routes_key.dart';
 import 'package:number_gaminng_app/screens/auth_screen/sign_in_screen/provider/sign_in_provider.dart';
 import 'package:number_gaminng_app/services/storage/storage_services.dart';
 import 'package:number_gaminng_app/utils/app_log.dart';
-import 'package:number_gaminng_app/utils/app_snack_bar.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
@@ -37,17 +36,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
   Future<void> checkLoginFunction() async {
     try {
-      if (!formKey.currentState!.validate()) {
-        return;
-      }
-      final response = await ref
-          .read(signInProvider.notifier)
-          .signIn(emailTextEditingController.text.trim(), passwordTextEditingController.text.trim());
-      if (response) {
-        AppRoutes.instance.go(AppRoutesKey.instance.homeScreen);
-      } else {
-        AppSnackBar.instance.error("Invalid email and password");
-      }
+      // Disabled validation for UI preview mode
+      AppRoutes.instance.go(AppRoutesKey.instance.homeScreen);
     } catch (e) {
       errorLog("checkLoginFunction", e);
     }
@@ -131,12 +121,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   title: "Email",
                   hintText: "Enter your email",
                   keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return "Enter your email";
-                    }
-                    return null;
-                  },
                 ),
 
                 const SizedBox(height: 16),
@@ -162,15 +146,6 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       });
                     },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Enter your password";
-                    }
-                    if (value.length < 6) {
-                      return "At least 6 characters required";
-                    }
-                    return null;
-                  },
                 ),
 
                 const SizedBox(height: 12),
@@ -267,7 +242,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   height: 56,
                   child: OutlinedButton(
                     onPressed: () {
-                      // Google Sign In
+                      AppRoutes.instance.go(AppRoutesKey.instance.homeScreen);
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.5),
@@ -371,7 +346,6 @@ class _StyledInputField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final TextInputType? keyboardType;
-  final String? Function(String?)? validator;
 
   const _StyledInputField({
     required this.controller,
@@ -381,7 +355,6 @@ class _StyledInputField extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.keyboardType,
-    this.validator,
   });
 
   @override
@@ -432,7 +405,6 @@ class _StyledInputField extends StatelessWidget {
                   controller: controller,
                   obscureText: obscureText,
                   keyboardType: keyboardType,
-                  validator: validator,
                   style: const TextStyle(
                     color: Color(0xFF0F172A),
                     fontSize: 15,
