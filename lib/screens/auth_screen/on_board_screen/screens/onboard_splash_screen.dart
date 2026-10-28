@@ -10,7 +10,7 @@ class OnboardSplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F8FE),
+      backgroundColor: const Color(0xFF0F172A),
       body: SafeArea(
         child: Column(
           children: [
@@ -26,7 +26,6 @@ class OnboardSplashScreen extends StatelessWidget {
                   errorBuilder: (context, error, stackTrace) => Image.asset(
                     AppAssertsIconsPath.instance.splashLogo,
                     fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => const _FallbackTargetIcon(),
                   ),
                 ),
               ),
@@ -34,12 +33,12 @@ class OnboardSplashScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // Title: Number Guessing Game
+            // Title
             const Text(
               "Number Guessing Game",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xFF0F172A),
+                color: Colors.white,
                 fontSize: 26,
                 fontWeight: FontWeight.w900,
                 fontFamily: 'Poppins',
@@ -49,14 +48,14 @@ class OnboardSplashScreen extends StatelessWidget {
 
             const SizedBox(height: 8),
 
-            // Subtitle Tagline
+            // Subtitle
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 36.0),
               child: Text(
                 "Challenge your friends, test your skills and have fun!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF64748B),
+                  color: Color(0xFF94A3B8),
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   height: 1.4,
@@ -74,23 +73,23 @@ class OnboardSplashScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: const [
                   _FeatureCardItem(
-                    icon: Icons.person,
-                    iconColor: Color(0xFF0088FF),
-                    backgroundColor: Color(0xFFE3F2FD),
+                    icon: Icons.person_rounded,
+                    iconColor: Color(0xFF38B6FF),
+                    backgroundColor: Color(0xFF1E293B),
                     title: "Play Solo",
                     subtitle: "(Online)",
                   ),
                   _FeatureCardItem(
                     icon: Icons.groups_rounded,
-                    iconColor: Color(0xFF8E24AA),
-                    backgroundColor: Color(0xFFF3E5F5),
+                    iconColor: Color(0xFFA855F7),
+                    backgroundColor: Color(0xFF1E293B),
                     title: "Challenge",
                     subtitle: "Friends",
                   ),
                   _FeatureCardItem(
                     icon: Icons.emoji_events_rounded,
-                    iconColor: Color(0xFFFFB300),
-                    backgroundColor: Color(0xFFFFF8E1),
+                    iconColor: Color(0xFFFBBF24),
+                    backgroundColor: Color(0xFF1E293B),
                     title: "Track",
                     subtitle: "Scores",
                   ),
@@ -159,12 +158,12 @@ class OnboardSplashScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.transparent,
                       ),
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
-                          color: Color(0xFF4F46E5),
+                          color: Color(0xFF818CF8),
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
@@ -178,14 +177,14 @@ class OnboardSplashScreen extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // Bottom Link: Already have an account? Sign In
+            // Bottom Link
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   "Already have an account? ",
                   style: TextStyle(
-                    color: Color(0xFF64748B),
+                    color: Color(0xFF94A3B8),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Poppins',
@@ -198,7 +197,7 @@ class OnboardSplashScreen extends StatelessWidget {
                   child: const Text(
                     "Sign In",
                     style: TextStyle(
-                      color: Color(0xFF4F46E5),
+                      color: Color(0xFF818CF8),
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Poppins',
@@ -216,7 +215,7 @@ class OnboardSplashScreen extends StatelessWidget {
   }
 }
 
-/// Single Feature Icon Card Item Widget
+/// Feature Card Item
 class _FeatureCardItem extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
@@ -237,16 +236,16 @@ class _FeatureCardItem extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Circular Icon Badge
         Container(
           width: 72,
           height: 72,
           decoration: BoxDecoration(
             color: backgroundColor,
             shape: BoxShape.circle,
+            border: Border.all(color: iconColor.withOpacity(0.3), width: 1.5),
             boxShadow: [
               BoxShadow(
-                color: backgroundColor.withOpacity(0.8),
+                color: iconColor.withOpacity(0.2),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -258,59 +257,30 @@ class _FeatureCardItem extends StatelessWidget {
             size: 34,
           ),
         ),
-
         const SizedBox(height: 10),
-
-        // Title Line 1
         Text(
           title,
           textAlign: TextAlign.center,
           style: const TextStyle(
-            color: Color(0xFF1E293B),
+            color: Colors.white,
             fontSize: 14,
             fontWeight: FontWeight.bold,
             fontFamily: 'Poppins',
             height: 1.1,
           ),
         ),
-
-        // Subtitle Line 2
         Text(
           subtitle,
           textAlign: TextAlign.center,
           style: const TextStyle(
-            color: Color(0xFF1E293B),
+            color: Color(0xFF94A3B8),
             fontSize: 13,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
             fontFamily: 'Poppins',
             height: 1.1,
           ),
         ),
       ],
-    );
-  }
-}
-
-/// Fallback Target Icon
-class _FallbackTargetIcon extends StatelessWidget {
-  const _FallbackTargetIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 140,
-      height: 140,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          colors: [Color(0xFF7C3AED), Color(0xFF4F46E5)],
-        ),
-      ),
-      child: const Icon(
-        Icons.track_changes,
-        color: Colors.white,
-        size: 80,
-      ),
     );
   }
 }
