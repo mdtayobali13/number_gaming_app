@@ -29,5 +29,9 @@ class AppRoutesKey {
 
   /////////////// app navigation
   final String homeScreen = "homeScreen";
+  final String challengeScreen = "challengeScreen";
+  final String historyScreen = "historyScreen";
   final String profileScreen = "profileScreen";
+  final String gamePlayScreen = "gamePlayScreen";
+  final String gameResultScreen = "gameResultScreen";
 }

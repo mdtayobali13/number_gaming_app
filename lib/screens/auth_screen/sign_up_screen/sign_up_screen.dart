@@ -1,19 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:number_gaminng_app/constant/app_asserts_image_path.dart';
-import 'package:number_gaminng_app/constant/app_colors.dart';
 import 'package:number_gaminng_app/routes/app_routes.dart';
+import 'package:number_gaminng_app/routes/app_routes_key.dart';
 import 'package:number_gaminng_app/screens/auth_screen/sign_up_screen/provider/sign_up_provider.dart';
-import 'package:number_gaminng_app/utils/app_log.dart';
-import 'package:number_gaminng_app/utils/app_size.dart';
-import 'package:number_gaminng_app/utils/gap.dart';
-import 'package:number_gaminng_app/widgets/app_image/app_image.dart';
-import 'package:number_gaminng_app/widgets/buttons/app_button.dart';
-import 'package:number_gaminng_app/widgets/image_userPick/image_user_pick.dart';
-import 'package:number_gaminng_app/widgets/inputs/app_input_widget_tow.dart';
-import 'package:number_gaminng_app/widgets/texts/app_text.dart';
-import '../../../routes/app_routes_key.dart';
-import '../../../widgets/inputs/app_input_widget.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -24,521 +13,443 @@ class SignUpScreen extends ConsumerStatefulWidget {
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   late GlobalKey<FormState> formKey;
-  late TextEditingController nameTextEditingController;
-  late TextEditingController emailTextEditingController;
-  late TextEditingController phoneNumberTextEditingController;
-  late TextEditingController passwordTextEditingController;
-  late TextEditingController confirmPasswordTextEditingController;
-  late TextEditingController storeNameTextEditingController;
-  late TextEditingController storeBioTextEditingController;
-  late TextEditingController storeAddressTextEditingController;
-  late TextEditingController storeImageController;
-
-  late TextEditingController fontImageController;
-  late TextEditingController backImageController;
-
-  void onAppInitial() {
-    try {
-      nameTextEditingController = TextEditingController();
-      emailTextEditingController = TextEditingController();
-      phoneNumberTextEditingController = TextEditingController();
-      passwordTextEditingController = TextEditingController();
-      confirmPasswordTextEditingController = TextEditingController();
-      storeNameTextEditingController = TextEditingController();
-      storeBioTextEditingController = TextEditingController();
-      storeAddressTextEditingController = TextEditingController();
-      fontImageController = TextEditingController();
-      backImageController = TextEditingController();
-      storeImageController = TextEditingController();
-      var provider = ref.read(signUpProvider);
-      nameTextEditingController.text = provider.name;
-      emailTextEditingController.text = provider.email;
-      phoneNumberTextEditingController.text = provider.phoneNumber;
-      passwordTextEditingController.text = provider.password;
-      confirmPasswordTextEditingController.text = provider.confirmPassword;
-      fontImageController.text = provider.idCardFrontendPart;
-      backImageController.text = provider.idCardBackendPart;
-      storeNameTextEditingController.text = provider.storeName;
-      storeBioTextEditingController.text = provider.storeBio;
-      storeAddressTextEditingController.text = provider.storeAddress;
-      storeImageController.text = provider.storePhoto;
-      formKey = GlobalKey<FormState>();
-    } catch (e) {
-      errorLog("onAppInitial", e);
-    }
-  }
-
-  void onAppClose() {
-    try {
-      nameTextEditingController.dispose();
-      emailTextEditingController.dispose();
-      phoneNumberTextEditingController.dispose();
-      passwordTextEditingController.dispose();
-      confirmPasswordTextEditingController.dispose();
-      fontImageController.dispose();
-      backImageController.dispose();
-      storeAddressTextEditingController.dispose();
-      storeBioTextEditingController.dispose();
-      storeNameTextEditingController.dispose();
-      storeImageController.dispose();
-    } catch (e) {
-      errorLog("onAppClose", e);
-    }
-  }
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  bool isPasswordObscured = true;
 
   @override
   void initState() {
     super.initState();
-    onAppInitial();
+    formKey = GlobalKey<FormState>();
+    final provider = ref.read(signUpProvider);
+    nameController = TextEditingController(text: provider.name);
+    emailController = TextEditingController(text: provider.email);
+    passwordController = TextEditingController(text: provider.password);
   }
 
   @override
   void dispose() {
-    onAppClose();
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
       body: SafeArea(
-        child: SizedBox(
-          width: AppSize.size.width,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.width(value: 20)),
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: AppSize.size.width * 0.8,
-                    height: AppSize.size.height * 0.14,
-                    child: Center(
-                      child: AppImage(width: AppSize.size.width * 0.8, path: AppAssertsImagePath.instance.logo),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Top Navigation Bar (Back Arrow)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    onPressed: () {
+                      if (Navigator.canPop(context)) {
+                        AppRoutes.instance.pop();
+                      } else {
+                        AppRoutes.instance.go(AppRoutesKey.instance.onBoardScreen);
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: Color(0xFF0F172A),
+                      size: 22,
                     ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
                   ),
+                ),
 
-                  SizedBox(
-                    width: AppSize.size.width * 0.8,
-                    child: AppText(
-                      text: "Welcome back! Create your account.",
-                      textAlign: TextAlign.center,
+                const SizedBox(height: 20),
 
-                      fontWeight: FontWeight.w500,
-                      height: 1.5,
-                      fontSize: AppSize.width(value: 18),
+                // Title: Create Account
+                const Text(
+                  "Create Account",
+                  style: TextStyle(
+                    color: Color(0xFF0F172A),
+                    fontSize: 28,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: 'Poppins',
+                    letterSpacing: -0.5,
+                  ),
+                ),
+
+                const SizedBox(height: 6),
+
+                // Subtitle
+                const Text(
+                  "Join the game and challenge your friends!",
+                  style: TextStyle(
+                    color: Color(0xFF64748B),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+
+                const SizedBox(height: 28),
+
+                // Full Name Input Card
+                _StyledInputField(
+                  controller: nameController,
+                  icon: Icons.person_outline_rounded,
+                  title: "Full Name",
+                  hintText: "Enter your name",
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Enter your name";
+                    }
+                    return null;
+                  },
+                  onChanged: (v) {
+                    ref.read(signUpProvider.notifier).stateUpdate(name: v);
+                  },
+                ),
+
+                const SizedBox(height: 16),
+
+                // Email Input Card
+                _StyledInputField(
+                  controller: emailController,
+                  icon: Icons.mail_outline_rounded,
+                  title: "Email",
+                  hintText: "Enter your email",
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Enter your email";
+                    }
+                    final emailRegex = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$');
+                    if (!emailRegex.hasMatch(value)) {
+                      return "Enter a valid email address";
+                    }
+                    return null;
+                  },
+                  onChanged: (v) {
+                    ref.read(signUpProvider.notifier).stateUpdate(email: v);
+                  },
+                ),
+
+                const SizedBox(height: 16),
+
+                // Password Input Card
+                _StyledInputField(
+                  controller: passwordController,
+                  icon: Icons.lock_outline_rounded,
+                  title: "Password",
+                  hintText: "Create a password",
+                  obscureText: isPasswordObscured,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      isPasswordObscured
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: const Color(0xFF94A3B8),
+                      size: 20,
                     ),
+                    onPressed: () {
+                      setState(() {
+                        isPasswordObscured = !isPasswordObscured;
+                      });
+                    },
                   ),
-                  Gap(height: 20),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: AppText(
-                      text: "Sign up as",
-                      textAlign: TextAlign.start,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Enter your password";
+                    }
+                    if (value.length < 6) {
+                      return "Password must be at least 6 characters";
+                    }
+                    return null;
+                  },
+                  onChanged: (v) {
+                    ref.read(signUpProvider.notifier).stateUpdate(password: v);
+                  },
+                ),
 
-                      fontWeight: FontWeight.w700,
-                      height: 1.5,
-                      fontSize: AppSize.width(value: 18),
-                    ),
-                  ),
-                  Gap(height: 20),
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final isCustomer = ref.watch(signUpProvider.select((p) => p.isCustomer));
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () async {
-                                ref.read(signUpProvider.notifier).stateUpdate(isCustomer: true);
+                const SizedBox(height: 28),
+
+                // Sign Up Button
+                Consumer(
+                  builder: (context, ref, child) {
+                    final isLoading = ref.watch(signUpProvider.select((p) => p.isLoading));
+
+                    return SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: ElevatedButton(
+                        onPressed: isLoading
+                            ? null
+                            : () async {
+                                if (formKey.currentState?.validate() ?? false) {
+                                  await ref
+                                      .read(signUpProvider.notifier)
+                                      .customerSignUp(formKey: formKey);
+                                }
                               },
-                              overlayColor: WidgetStatePropertyAll(Colors.transparent),
-                              child: AnimatedContainer(
-                                duration: Durations.long1,
-                                padding: EdgeInsets.all(AppSize.width(value: 10)),
-                                decoration: BoxDecoration(
-                                  color: isCustomer ? AppColors.instance.success : AppColors.instance.white100,
-                                  border: Border.all(color: isCustomer ? AppColors.instance.success : AppColors.instance.dark300),
-                                  borderRadius: BorderRadius.circular(AppSize.width(value: 10)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF4F46E5),
+                          elevation: 4,
+                          shadowColor: const Color(0xFF4F46E5).withOpacity(0.4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: isLoading
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2.5,
                                 ),
-                                alignment: Alignment.center,
-                                child: AppText(
-                                  text: "Customer",
-                                  color: isCustomer ? AppColors.instance.white50 : AppColors.instance.dark500,
-                                  fontWeight: FontWeight.w600,
+                              )
+                            : const Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins',
                                 ),
                               ),
-                            ),
-                          ),
-                          Gap(width: 20),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () async {
-                                ref.read(signUpProvider.notifier).stateUpdate(isCustomer: false);
-                              },
-                              overlayColor: WidgetStatePropertyAll(Colors.transparent),
-                              child: AnimatedContainer(
-                                duration: Durations.long1,
-                                padding: EdgeInsets.all(AppSize.width(value: 10)),
-                                decoration: BoxDecoration(
-                                  color: !isCustomer ? AppColors.instance.success : AppColors.instance.white100,
-                                  border: Border.all(color: !isCustomer ? AppColors.instance.success : AppColors.instance.dark300),
-                                  borderRadius: BorderRadius.circular(AppSize.width(value: 10)),
-                                ),
-                                alignment: Alignment.center,
-                                child: AppText(
-                                  text: "Vendor",
-                                  color: !isCustomer ? AppColors.instance.white50 : AppColors.instance.dark500,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  Gap(height: 10),
-                  AppInputWidgetTwo(
-                    validator: (String? value) {
-                      if (value?.isEmpty ?? true) {
-                        return "Enter your name";
-                      }
-                      return null;
-                    },
-                    title: "Name",
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    controller: nameTextEditingController,
-                    onChanged: (v) {
-                      ref.read(signUpProvider.notifier).stateUpdate(name: v);
-                    },
-                    hintText: "Enter your name",
-                  ),
-                  AppInputWidgetTwo(
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return "Enter your email";
-                      }
-                      final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                      if (!emailRegex.hasMatch(value)) {
-                        return "Enter a valid email address";
-                      }
-                      return null;
-                    },
-                    title: "Email",
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    isEmail: true,
-                    controller: emailTextEditingController,
-                    onChanged: (v) {
-                      ref.read(signUpProvider.notifier).stateUpdate(email: v);
-                    },
-                    hintText: "Enter your email",
-                  ),
-                  AppInputWidgetTwo(
-                    validator: (String? value) {
-                      if (value?.isEmpty ?? true) {
-                        return "Enter your phone number";
-                      }
-                      return null;
-                    },
-                    title: "Phone Number",
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    controller: phoneNumberTextEditingController,
-                    onChanged: (v) {
-                      ref.read(signUpProvider.notifier).stateUpdate(phoneNumber: v);
-                    },
-                    hintText: "Enter your phone number",
-                  ),
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final isCustomer = ref.watch(signUpProvider.select((p) => p.isCustomer));
-                      if (!isCustomer) {
-                        return Column(
-                          children: [
-                            AppInputWidgetTwo(
-                              controller: storeNameTextEditingController,
-                              title: "Store Name",
-                              onChanged: (v) {
-                                ref.read(signUpProvider.notifier).stateUpdate(storeName: v);
-                              },
-                              validator: (String? value) {
-                                if (value?.isEmpty ?? true) {
-                                  return " enter your store name";
-                                }
-                                return null;
-                              },
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                              // controller: phoneNumberTextEditingController,
-                              hintText: "Enter store name",
-                            ),
-                            AppInputWidgetTwo(
-                              controller: storeBioTextEditingController,
-                              validator: (String? value) {
-                                if (value?.isEmpty ?? true) {
-                                  return " enter your store Bio";
-                                }
-                                return null;
-                              },
-                              title: "Store Bio",
-                              onChanged: (v) {
-                                ref.read(signUpProvider.notifier).stateUpdate(storeBio: v);
-                              },
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                              // controller: phoneNumberTextEditingController,
-                              hintText: "Enter store bio",
-                            ),
-                            AppInputWidgetTwo(
-                              controller: storeAddressTextEditingController,
-                              validator: (String? value) {
-                                if (value?.isEmpty ?? true) {
-                                  return " enter your store address";
-                                }
-                                return null;
-                              },
-                              onChanged: (v) {
-                                ref.read(signUpProvider.notifier).stateUpdate(storeAddress: v);
-                              },
-                              title: "Store Address",
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                              // controller: phoneNumberTextEditingController,
-                              hintText: "Enter store address",
-                            ),
-                          ],
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
+                      ),
+                    );
+                  },
+                ),
 
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: AppInputWidgetTwo(
-                          maxLines: 1,
-                          controller: fontImageController,
-                          readOnly: true,
-                          onTap: () {
-                            appImageUserTake(
-                              callBack: (v) {
-                                ref.read(signUpProvider.notifier).stateUpdate(idCardFrontendPart: v);
-                                fontImageController.text = v;
-                              },
-                            );
-                          },
-                          validator: (String? value) {
-                            if (value?.isEmpty ?? true) {
-                              return "Enter your image";
-                            }
-                            return null;
-                          },
-                          title: "Resident Card",
-                          hintText: "Upload font side photo",
-                          padding: EdgeInsets.symmetric(horizontal: 0),
+                const SizedBox(height: 24),
+
+                // OR Divider
+                Row(
+                  children: const [
+                    Expanded(child: Divider(color: Color(0xFFE2E8F0), thickness: 1)),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        "OR",
+                        style: TextStyle(
+                          color: Color(0xFF94A3B8),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Poppins',
                         ),
                       ),
-                      Gap(width: AppSize.size.width * 0.02),
-                      Expanded(
-                        flex: 1,
-                        child: AppButton(
-                          onTap: () {
-                            appImageUserTake(
-                              callBack: (v) {
-                                ref.read(signUpProvider.notifier).stateUpdate(idCardFrontendPart: v);
-                                fontImageController.text = v;
-                              },
-                            );
-                          },
-                          height: AppSize.size.width * 0.13,
-                          backgroundColor: AppColors.instance.success,
-                          borderColor: AppColors.instance.success,
-                          title: "Upload",
-                        ),
+                    ),
+                    Expanded(child: Divider(color: Color(0xFFE2E8F0), thickness: 1)),
+                  ],
+                ),
+
+                const SizedBox(height: 24),
+
+                // Social Login: Continue with Google
+                SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      // Google sign in action
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    ],
-                  ),
-                  Gap(height: AppSize.size.width * 0.015),
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final backImage = ref.watch(signUpProvider.select((p) => p.idCardBackendPart));
-                      return Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: AppInputWidget(
-                              maxLines: 1,
-                              controller: backImageController,
-                              readOnly: true,
-                              onTap: () {
-                                appImageUserTake(
-                                  callBack: (v) {
-                                    ref.read(signUpProvider.notifier).stateUpdate(idCardBackendPart: v);
-                                  },
-                                );
-                              },
-                              validator: (String? value) {
-                                if (backImage.isEmpty) {
-                                  return "Enter your image";
-                                }
-                                return null;
-                              },
-                              borderColor: AppColors.instance.success,
-                              hintText: backImage.isEmpty ? "Upload back side photo" : backImage.split("/").last,
-                            ),
+                      backgroundColor: Colors.white,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        _GoogleLogoIcon(),
+                        SizedBox(width: 12),
+                        Text(
+                          "Continue with Google",
+                          style: TextStyle(
+                            color: Color(0xFF1E293B),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
                           ),
-                          Gap(width: AppSize.size.width * 0.02),
-                          Expanded(
-                            flex: 1,
-                            child: AppButton(
-                              onTap: () {
-                                appImageUserTake(
-                                  callBack: (v) {
-                                    ref.read(signUpProvider.notifier).stateUpdate(idCardBackendPart: v);
-                                  },
-                                );
-                              },
-                              height: AppSize.size.width * 0.13,
-                              backgroundColor: AppColors.instance.success,
-                              borderColor: AppColors.instance.success,
-                              title: "Upload",
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final isCustomer = ref.watch(signUpProvider.select((p) => p.isCustomer));
-                      final storePhoto = ref.watch(signUpProvider.select((p) => p.storePhoto));
-                      if (!isCustomer) {
-                        return Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: AppInputWidgetTwo(
-                                maxLines: 1,
-                                controller: storeImageController,
-                                readOnly: true,
-                                onTap: () {
-                                  appImageUserTake(
-                                    callBack: (v) {
-                                      ref.read(signUpProvider.notifier).stateUpdate(storePhoto: v);
-                                    },
-                                  );
-                                },
-                                validator: (String? value) {
-                                  if (storePhoto.isEmpty) {
-                                    return "Enter your image";
-                                  }
-                                  return null;
-                                },
-                                title: "Store Photo",
-                                hintText: storePhoto.isEmpty ? "Upload store photo" : storePhoto.split("/").last,
-                                padding: EdgeInsets.symmetric(horizontal: 0),
-                              ),
-                            ),
-                            Gap(width: AppSize.size.width * 0.02),
-                            Expanded(
-                              flex: 1,
-                              child: AppButton(
-                                onTap: () {
-                                  appImageUserTake(
-                                    callBack: (v) {
-                                      ref.read(signUpProvider.notifier).stateUpdate(storePhoto: v);
-                                    },
-                                  );
-                                },
-                                height: AppSize.size.width * 0.13,
-                                backgroundColor: AppColors.instance.success,
-                                borderColor: AppColors.instance.success,
-                                title: "Upload",
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-                  AppInputWidgetTwo(
-                    validator: (String? value) {
-                      if (value?.isEmpty ?? true) {
-                        return "Enter your password";
-                      }
-                      if (value!.length < 6) {
-                        return "Password must be at least 6 characters";
-                      }
-                      return null;
-                    },
-                    title: "Password",
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    isPassWord: true,
-                    controller: passwordTextEditingController,
-                    onChanged: (v) {
-                      ref.read(signUpProvider.notifier).stateUpdate(password: v);
-                    },
-                    hintText: "Enter your password",
-                  ),
-                  AppInputWidgetTwo(
-                    validator: (String? value) {
-                      if (value?.isEmpty ?? true) {
-                        return "Enter your password";
-                      }
-                      if (value!.length < 6) {
-                        return "Password must be at least 6 characters";
-                      }
-                      if (value != passwordTextEditingController.text) {
-                        return "Password not matching";
-                      }
-                      return null;
-                    },
-                    title: "Confirm Password",
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    isPassWord: true,
-                    controller: confirmPasswordTextEditingController,
-                    hintText: "Enter Confirm Password",
-                  ),
-                  Gap(height: 20),
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final isLoading = ref.watch(signUpProvider.select((p) => p.isLoading));
-                      return AppButton(
-                        onTap: () async {
-                          await ref.read(signUpProvider.notifier).customerSignUp(formKey: formKey);
-                        },
-                        isLoading: isLoading,
-                        backgroundColor: AppColors.instance.success,
-                        borderColor: AppColors.instance.success,
-                        title: "Create Account",
-                        padding: EdgeInsets.all(AppSize.width(value: 10)),
-                      );
-                    },
-                  ),
-                  Gap(height: 15),
-                  Center(
-                    child: Wrap(
-                      children: [
-                        AppText(text: "Already have an account?"),
-                        Gap(width: 10),
-                        InkWell(
-                          onTap: () {
-                            AppRoutes.instance.go(AppRoutesKey.instance.signInScreen);
-                          },
-                          overlayColor: WidgetStatePropertyAll(Colors.transparent),
-                          child: AppText(text: "Sign In", fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
                   ),
-                  Gap(height: 70),
-                ],
-              ),
+                ),
+
+                const SizedBox(height: 32),
+
+                // Bottom Link: Already have an account? Sign In
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Already have an account? ",
+                      style: TextStyle(
+                        color: Color(0xFF64748B),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        AppRoutes.instance.go(AppRoutesKey.instance.signInScreen);
+                      },
+                      child: const Text(
+                        "Sign In",
+                        style: TextStyle(
+                          color: Color(0xFF4F46E5),
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 24),
+              ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Custom Styled Input Field Widget matching design
+class _StyledInputField extends StatelessWidget {
+  final TextEditingController controller;
+  final IconData icon;
+  final String title;
+  final String hintText;
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
+
+  const _StyledInputField({
+    required this.controller,
+    required this.icon,
+    required this.title,
+    required this.hintText,
+    this.obscureText = false,
+    this.suffixIcon,
+    this.keyboardType,
+    this.validator,
+    this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.5),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Circular Icon Badge
+          Container(
+            width: 44,
+            height: 44,
+            decoration: const BoxDecoration(
+              color: Color(0xFFEFF6FF),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              color: const Color(0xFF4F46E5),
+              size: 22,
+            ),
+          ),
+
+          const SizedBox(width: 14),
+
+          // Field Title + TextFormField
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Color(0xFF1E293B),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+                TextFormField(
+                  controller: controller,
+                  obscureText: obscureText,
+                  keyboardType: keyboardType,
+                  validator: validator,
+                  onChanged: onChanged,
+                  style: const TextStyle(
+                    color: Color(0xFF0F172A),
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                  ),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    hintStyle: const TextStyle(
+                      color: Color(0xFF94A3B8),
+                      fontSize: 14,
+                      fontFamily: 'Poppins',
+                    ),
+                    isDense: true,
+                    contentPadding: const EdgeInsets.only(top: 4, bottom: 2),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          if (suffixIcon != null) suffixIcon!,
+        ],
+      ),
+    );
+  }
+}
+
+/// Google Logo Custom Icon
+class _GoogleLogoIcon extends StatelessWidget {
+  const _GoogleLogoIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 24,
+      height: 24,
+      alignment: Alignment.center,
+      child: const Text(
+        "G",
+        style: TextStyle(
+          color: Color(0xFF4285F4),
+          fontSize: 20,
+          fontWeight: FontWeight.w900,
+          fontFamily: 'Poppins',
         ),
       ),
     );

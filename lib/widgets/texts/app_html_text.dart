@@ -16,7 +16,6 @@ class AppHtmlWidget extends ConsumerStatefulWidget {
   final TextStyle? textStyle;
   final bool translate;
   final bool isDynamic;
-
   @override
   ConsumerState<AppHtmlWidget> createState() => _AppHtmlWidgetState();
 }

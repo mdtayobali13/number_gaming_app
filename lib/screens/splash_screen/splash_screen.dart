@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:number_gaminng_app/constant/app_asserts_icons_path.dart';
 import 'package:number_gaminng_app/routes/app_routes.dart';
 import 'package:number_gaminng_app/routes/app_routes_key.dart';
 
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   void initState() {
     super.initState();
 
-    // Floating bobbing animation for central graphics
+    // Floating bobbing animation for splash logo
     _floatingController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
@@ -90,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                 children: [
                   const Spacer(flex: 2),
 
-                  // Floating Graphic Section (Target + Arrow + Floating Cards)
+                  // Floating Splash Logo Section
                   AnimatedBuilder(
                     animation: _floatingController,
                     builder: (context, child) {
@@ -100,10 +101,18 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                         child: child,
                       );
                     },
-                    child: _CentralGameGraphic(screenSize: size),
+                    child: SizedBox(
+                      height: size.height * 0.42,
+                      width: size.width * 0.85,
+                      child: Image.asset(
+                        AppAssertsIconsPath.instance.splashLogo,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => _CentralGameGraphic(screenSize: size),
+                      ),
+                    ),
                   ),
 
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
 
                   // Title Text Section
                   const _GameTitleSection(),
@@ -264,7 +273,7 @@ class _SparkleDot extends StatelessWidget {
   }
 }
 
-/// Central Target Board with Dart Arrow & Floating Number Cards
+/// Central Target Board with Dart Arrow & Floating Number Cards (Fallback)
 class _CentralGameGraphic extends StatelessWidget {
   final Size screenSize;
 
@@ -281,7 +290,6 @@ class _CentralGameGraphic extends StatelessWidget {
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: [
-          // 3D Ellipse Platform / Shadow under target
           Positioned(
             bottom: 25,
             child: Container(
@@ -298,115 +306,11 @@ class _CentralGameGraphic extends StatelessWidget {
               ),
             ),
           ),
-
-          // Target Board + Dart Arrow Custom Painter
           CustomPaint(
             size: Size(graphicSize, graphicSize),
             painter: TargetAndDartPainter(),
           ),
-
-          // Floating Number Card: "7" (Top-Left, Cyan/Blue)
-          Positioned(
-            top: 10,
-            left: 15,
-            child: Transform.rotate(
-              angle: -0.22,
-              child: const _NumberCardWidget(
-                number: "7",
-                gradientColors: [Color(0xFF4FACFE), Color(0xFF00F2FE)],
-                borderColor: Color(0xFF7DE2FF),
-              ),
-            ),
-          ),
-
-          // Floating Number Card: "3" (Bottom-Left, Vivid Green)
-          Positioned(
-            bottom: 35,
-            left: 0,
-            child: Transform.rotate(
-              angle: 0.15,
-              child: const _NumberCardWidget(
-                number: "3",
-                gradientColors: [Color(0xFF23D5AB), Color(0xFF23A6D5)],
-                borderColor: Color(0xFF88FFD2),
-              ),
-            ),
-          ),
-
-          // Floating Number Card: "9" (Right, Purple/Magenta)
-          Positioned(
-            top: 75,
-            right: 0,
-            child: Transform.rotate(
-              angle: 0.20,
-              child: const _NumberCardWidget(
-                number: "9",
-                gradientColors: [Color(0xFFE100FF), Color(0xFF7F00FF)],
-                borderColor: Color(0xFFF18BFF),
-              ),
-            ),
-          ),
         ],
-      ),
-    );
-  }
-}
-
-/// 3D Number Card Component
-class _NumberCardWidget extends StatelessWidget {
-  final String number;
-  final List<Color> gradientColors;
-  final Color borderColor;
-
-  const _NumberCardWidget({
-    required this.number,
-    required this.gradientColors,
-    required this.borderColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 54,
-      height: 54,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: gradientColors,
-        ),
-        border: Border.all(color: borderColor.withOpacity(0.6), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: gradientColors.first.withOpacity(0.5),
-            blurRadius: 16,
-            offset: const Offset(0, 8),
-          ),
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 8,
-            offset: const Offset(2, 4),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          number,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 28,
-            fontWeight: FontWeight.w900,
-            fontFamily: 'Poppins',
-            shadows: [
-              Shadow(
-                color: Colors.black38,
-                offset: Offset(1, 2),
-                blurRadius: 4,
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -419,20 +323,18 @@ class TargetAndDartPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
 
-    // 1. Target Outer Shadow
     final shadowPaint = Paint()
       ..color = const Color(0xFF6B22F0).withOpacity(0.4)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20);
     canvas.drawCircle(center, radius - 10, shadowPaint);
 
-    // 2. Concentric Target Rings
     final List<Map<String, dynamic>> rings = [
-      {'r': radius - 12, 'c': const Color(0xFF3B1E8C)}, // Outer Deep Violet Ring
-      {'r': radius - 26, 'c': const Color(0xFFECEBFF)}, // White Ring
-      {'r': radius - 44, 'c': const Color(0xFF7A22F0)}, // Vivid Purple Ring
-      {'r': radius - 62, 'c': const Color(0xFFFFFFFF)}, // Inner White Ring
-      {'r': radius - 78, 'c': const Color(0xFFEE2B8C)}, // Pink Bullseye Outer
-      {'r': radius - 90, 'c': const Color(0xFFFF4899)}, // Bullseye Center
+      {'r': radius - 12, 'c': const Color(0xFF3B1E8C)},
+      {'r': radius - 26, 'c': const Color(0xFFECEBFF)},
+      {'r': radius - 44, 'c': const Color(0xFF7A22F0)},
+      {'r': radius - 62, 'c': const Color(0xFFFFFFFF)},
+      {'r': radius - 78, 'c': const Color(0xFFEE2B8C)},
+      {'r': radius - 90, 'c': const Color(0xFFFF4899)},
     ];
 
     for (var ring in rings) {
@@ -441,88 +343,13 @@ class TargetAndDartPainter extends CustomPainter {
         ..style = PaintingStyle.fill;
       canvas.drawCircle(center, ring['r'] as double, paint);
     }
-
-    // Target Inner Specular Highlight / Glow
-    final bullseyeGlow = Paint()
-      ..color = Colors.white.withOpacity(0.3)
-      ..style = PaintingStyle.fill;
-    canvas.drawCircle(Offset(center.dx - 4, center.dy - 4), 6, bullseyeGlow);
-
-    // 3. Golden Arrow / Dart Piercing Bullseye Center
-    _drawGoldenDart(canvas, center);
-  }
-
-  void _drawGoldenDart(Canvas canvas, Offset targetCenter) {
-    canvas.save();
-
-    // Rotate and position the dart at an isometric 45-degree angle
-    canvas.translate(targetCenter.dx, targetCenter.dy);
-    canvas.rotate(-math.pi / 4);
-
-    // Shaft of the Dart
-    final shaftPaint = Paint()
-      ..shader = const LinearGradient(
-        colors: [Color(0xFFFFD700), Color(0xFFFF9100), Color(0xFFFF6D00)],
-      ).createShader(const Rect.fromLTWH(0, 0, 90, 8))
-      ..style = PaintingStyle.fill;
-
-    final shaftPath = Path()
-      ..moveTo(0, -3)
-      ..lineTo(85, -5)
-      ..lineTo(85, 5)
-      ..lineTo(0, 3)
-      ..close();
-    canvas.drawPath(shaftPath, shaftPaint);
-
-    // Dart Tip (Point in bullseye)
-    final tipPaint = Paint()..color = const Color(0xFFFFE57F);
-    final tipPath = Path()
-      ..moveTo(0, -3)
-      ..lineTo(-12, 0)
-      ..lineTo(0, 3)
-      ..close();
-    canvas.drawPath(tipPath, tipPaint);
-
-    // Golden Wings / Fletching of Dart
-    final wingPaint = Paint()
-      ..shader = const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Color(0xFFFFEA00), Color(0xFFFFAB00)],
-      ).createShader(const Rect.fromLTWH(65, -28, 40, 56));
-
-    // Upper Wing
-    final upperWing = Path()
-      ..moveTo(60, -4)
-      ..lineTo(95, -28)
-      ..lineTo(80, -4)
-      ..close();
-    canvas.drawPath(upperWing, wingPaint);
-
-    // Lower Wing
-    final lowerWing = Path()
-      ..moveTo(60, 4)
-      ..lineTo(95, 28)
-      ..lineTo(80, 4)
-      ..close();
-    canvas.drawPath(lowerWing, wingPaint);
-
-    // Wing Accent Lines
-    final wingAccent = Paint()
-      ..color = const Color(0xFFFF6D00)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-    canvas.drawLine(const Offset(65, -5), const Offset(90, -22), wingAccent);
-    canvas.drawLine(const Offset(65, 5), const Offset(90, 22), wingAccent);
-
-    canvas.restore();
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-/// Title Text Section with Multi-color & Gradient Text
+/// Title Text Section
 class _GameTitleSection extends StatelessWidget {
   const _GameTitleSection();
 
@@ -531,7 +358,6 @@ class _GameTitleSection extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // "Number"
         const Text(
           "Number",
           style: TextStyle(
@@ -542,14 +368,12 @@ class _GameTitleSection extends StatelessWidget {
             letterSpacing: 0.5,
           ),
         ),
-
-        // "Guessing" with Gradient Mask
         ShaderMask(
           shaderCallback: (bounds) => const LinearGradient(
             colors: [
-              Color(0xFFFF52A8), // Bright Pink
-              Color(0xFFB052FF), // Purple
-              Color(0xFF38B6FF), // Cyan Blue
+              Color(0xFFFF52A8),
+              Color(0xFFB052FF),
+              Color(0xFF38B6FF),
             ],
           ).createShader(bounds),
           child: const Text(
@@ -557,21 +381,19 @@ class _GameTitleSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 42,
               fontWeight: FontWeight.w900,
-              color: Colors.white, // Required for ShaderMask
+              color: Colors.white,
               fontFamily: 'Poppins',
               height: 1.1,
               letterSpacing: 0.5,
             ),
           ),
         ),
-
-        // "Game"
         const Text(
           "Game",
           style: TextStyle(
             fontSize: 38,
             fontWeight: FontWeight.w900,
-            color: Color(0xFFFFC837), // Vibrant Golden Yellow
+            color: Color(0xFFFFC837),
             fontFamily: 'Poppins',
             height: 1.1,
             letterSpacing: 0.5,
@@ -597,7 +419,6 @@ class _BottomLoadingWidget extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Glowing Rotating Ring Indicator
         RotationTransition(
           turns: rotationController,
           child: Container(
@@ -622,7 +443,6 @@ class _BottomLoadingWidget extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // Pulsing "Get Ready..." Text
         AnimatedBuilder(
           animation: pulseController,
           builder: (context, child) {

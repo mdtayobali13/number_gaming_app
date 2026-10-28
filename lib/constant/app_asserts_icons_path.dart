@@ -7,4 +7,6 @@ class AppAssertsIconsPath {
   final String appleIcon = "assets/icons/apple_icon.png";
   final String love = "assets/icons/love.webp";
   final String loveFill = "assets/icons/love_fill.webp";
+  final String splashLogo = "assets/icons/splash logo.png";
+  final String onboarding = "assets/icons/onbording.png";
 }

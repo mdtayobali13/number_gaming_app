@@ -1,7 +1,7 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:number_gaminng_app/constant/app_colors.dart';
-import 'package:number_gaminng_app/widgets/buttons/app_button.dart';
+import 'package:number_gaminng_app/constant/app_asserts_icons_path.dart';
+import 'package:number_gaminng_app/routes/app_routes.dart';
+import 'package:number_gaminng_app/routes/app_routes_key.dart';
 
 class OnboardSplashScreen extends StatelessWidget {
   const OnboardSplashScreen({super.key, required this.getStart});
@@ -9,160 +9,308 @@ class OnboardSplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: const Color(0xFFF6F8FE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const Spacer(flex: 1),
 
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF0F0842),
-            Color(0xFF1E1169),
-            Color(0xFF120A45),
-          ],
-        ),
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-          child: Column(
-            children: [
-              const Spacer(),
-
-              // Game Header Graphic Container
-              Container(
-                width: size.width * 0.65,
-                height: size.width * 0.65,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF8C32FF).withOpacity(0.3),
-                      blurRadius: 60,
-                      spreadRadius: 10,
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // Target Custom Graphic
-                    CustomPaint(
-                      size: Size(size.width * 0.55, size.width * 0.55),
-                      painter: _MiniTargetPainter(),
-                    ),
-                  ],
+            // Top Onboarding Graphic Image
+            Center(
+              child: SizedBox(
+                height: 190,
+                child: Image.asset(
+                  AppAssertsIconsPath.instance.onboarding,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                    AppAssertsIconsPath.instance.splashLogo,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => const _FallbackTargetIcon(),
+                  ),
                 ),
               ),
+            ),
 
-              const SizedBox(height: 36),
+            const SizedBox(height: 20),
 
-              // Title: Number Guessing Game
-              Column(
-                children: [
-                  const Text(
-                    "WELCOME TO",
-                    style: TextStyle(
-                      color: Colors.white60,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 2.0,
-                      fontFamily: 'Poppins',
-                    ),
+            // Title: Number Guessing Game
+            const Text(
+              "Number Guessing Game",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF0F172A),
+                fontSize: 26,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'Poppins',
+                letterSpacing: 0.2,
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            // Subtitle Tagline
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 36.0),
+              child: Text(
+                "Challenge your friends, test your skills and have fun!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF64748B),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  height: 1.4,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+            ),
+
+            const Spacer(flex: 2),
+
+            // 3 Feature Icons Section
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  _FeatureCardItem(
+                    icon: Icons.person,
+                    iconColor: Color(0xFF0088FF),
+                    backgroundColor: Color(0xFFE3F2FD),
+                    title: "Play Solo",
+                    subtitle: "(Online)",
                   ),
-                  const SizedBox(height: 6),
-                  ShaderMask(
-                    shaderCallback: (bounds) => const LinearGradient(
-                      colors: [
-                        Color(0xFFFF52A8),
-                        Color(0xFFB052FF),
-                        Color(0xFF38B6FF),
-                      ],
-                    ).createShader(bounds),
-                    child: const Text(
-                      "Number Guessing",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        fontFamily: 'Poppins',
+                  _FeatureCardItem(
+                    icon: Icons.groups_rounded,
+                    iconColor: Color(0xFF8E24AA),
+                    backgroundColor: Color(0xFFF3E5F5),
+                    title: "Challenge",
+                    subtitle: "Friends",
+                  ),
+                  _FeatureCardItem(
+                    icon: Icons.emoji_events_rounded,
+                    iconColor: Color(0xFFFFB300),
+                    backgroundColor: Color(0xFFFFF8E1),
+                    title: "Track",
+                    subtitle: "Scores",
+                  ),
+                ],
+              ),
+            ),
+
+            const Spacer(flex: 2),
+
+            // Buttons Section (Sign In & Sign Up)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: Column(
+                children: [
+                  // Primary Filled Button: Sign In
+                  SizedBox(
+                    width: double.infinity,
+                    height: 54,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        AppRoutes.instance.go(AppRoutesKey.instance.signInScreen);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF4F46E5),
+                        elevation: 4,
+                        shadowColor: const Color(0xFF4F46E5).withOpacity(0.4),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            "Sign In",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Icon(
+                            Icons.arrow_forward_rounded,
+                            color: Colors.white,
+                            size: 22,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  const Text(
-                    "Challenge",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFFFFC837),
-                      fontFamily: 'Poppins',
+
+                  const SizedBox(height: 14),
+
+                  // Secondary Outlined Button: Sign Up
+                  SizedBox(
+                    width: double.infinity,
+                    height: 54,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        AppRoutes.instance.go(AppRoutesKey.instance.signUpScreen);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Color(0xFF4F46E5), width: 2),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: Color(0xFF4F46E5),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
+            ),
 
-              const SizedBox(height: 16),
+            const SizedBox(height: 16),
 
-              // Subtitle
-              const Text(
-                "Test your intuition and logic! Guess the mystery numbers, score high, and win reward badges.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 14,
-                  height: 1.5,
-                  fontFamily: 'Poppins',
+            // Bottom Link: Already have an account? Sign In
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Already have an account? ",
+                  style: TextStyle(
+                    color: Color(0xFF64748B),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
-              ),
+                GestureDetector(
+                  onTap: () {
+                    AppRoutes.instance.go(AppRoutesKey.instance.signInScreen);
+                  },
+                  child: const Text(
+                    "Sign In",
+                    style: TextStyle(
+                      color: Color(0xFF4F46E5),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+              ],
+            ),
 
-              const Spacer(flex: 2),
-
-              // Get Started Button
-              AppButton(
-                onTap: getStart,
-                title: "Get Started",
-                height: 54,
-                backgroundColor: const Color(0xFF38B6FF),
-                borderColor: const Color(0xFF7DE2FF),
-                titleColor: Colors.white,
-                loaderColor: AppColors.instance.white50,
-              ),
-
-              const SizedBox(height: 24),
-            ],
-          ),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
     );
   }
 }
 
-class _MiniTargetPainter extends CustomPainter {
+/// Single Feature Icon Card Item Widget
+class _FeatureCardItem extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final Color backgroundColor;
+  final String title;
+  final String subtitle;
+
+  const _FeatureCardItem({
+    required this.icon,
+    required this.iconColor,
+    required this.backgroundColor,
+    required this.title,
+    required this.subtitle,
+  });
+
   @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2;
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Circular Icon Badge
+        Container(
+          width: 72,
+          height: 72,
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: backgroundColor.withOpacity(0.8),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Icon(
+            icon,
+            color: iconColor,
+            size: 34,
+          ),
+        ),
 
-    final List<Map<String, dynamic>> rings = [
-      {'r': radius, 'c': const Color(0xFF3B1E8C)},
-      {'r': radius * 0.8, 'c': const Color(0xFFECEBFF)},
-      {'r': radius * 0.6, 'c': const Color(0xFF7A22F0)},
-      {'r': radius * 0.4, 'c': const Color(0xFFFFFFFF)},
-      {'r': radius * 0.22, 'c': const Color(0xFFFF4899)},
-    ];
+        const SizedBox(height: 10),
 
-    for (var ring in rings) {
-      final paint = Paint()
-        ..color = ring['c'] as Color
-        ..style = PaintingStyle.fill;
-      canvas.drawCircle(center, ring['r'] as double, paint);
-    }
+        // Title Line 1
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF1E293B),
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Poppins',
+            height: 1.1,
+          ),
+        ),
+
+        // Subtitle Line 2
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF1E293B),
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Poppins',
+            height: 1.1,
+          ),
+        ),
+      ],
+    );
   }
+}
+
+/// Fallback Target Icon
+class _FallbackTargetIcon extends StatelessWidget {
+  const _FallbackTargetIcon();
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  Widget build(BuildContext context) {
+    return Container(
+      width: 140,
+      height: 140,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: [Color(0xFF7C3AED), Color(0xFF4F46E5)],
+        ),
+      ),
+      child: const Icon(
+        Icons.track_changes,
+        color: Colors.white,
+        size: 80,
+      ),
+    );
+  }
 }

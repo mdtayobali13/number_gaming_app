@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:number_gaminng_app/constant/app_colors.dart';
-import 'package:number_gaminng_app/screens/app_navigation/widgets/nav_bar_item.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -12,25 +9,97 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.instance.black600,
-        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.05), width: 1)),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            offset: Offset(0, -2),
+          ),
+        ],
       ),
       child: SafeArea(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            NavBarItem(isSelected: currentIndex == 0, icon: CupertinoIcons.house, filledIcon: CupertinoIcons.house_fill, onTap: () => onTap(0)),
-            NavBarItem(isSelected: currentIndex == 1, icon: CupertinoIcons.heart, filledIcon: CupertinoIcons.heart_fill, onTap: () => onTap(1)),
-            NavBarItem(isSelected: currentIndex == 2, icon: CupertinoIcons.globe, filledIcon: CupertinoIcons.globe, onTap: () => onTap(2)),
-            NavBarItem(
+            _NavBarItem(
+              isSelected: currentIndex == 0,
+              icon: Icons.home_rounded,
+              label: "Home",
+              onTap: () => onTap(0),
+            ),
+            _NavBarItem(
+              isSelected: currentIndex == 1,
+              icon: Icons.sports_esports_outlined,
+              label: "Challenge",
+              onTap: () => onTap(1),
+            ),
+            _NavBarItem(
+              isSelected: currentIndex == 2,
+              icon: Icons.history_rounded,
+              label: "History",
+              onTap: () => onTap(2),
+            ),
+            _NavBarItem(
               isSelected: currentIndex == 3,
-              icon: CupertinoIcons.chat_bubble_2,
-              filledIcon: CupertinoIcons.chat_bubble_2_fill,
+              icon: Icons.person_outline_rounded,
+              label: "Profile",
               onTap: () => onTap(3),
             ),
-            NavBarItem(isSelected: currentIndex == 4, icon: CupertinoIcons.person, filledIcon: CupertinoIcons.person_fill, onTap: () => onTap(4)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NavBarItem extends StatelessWidget {
+  final bool isSelected;
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _NavBarItem({
+    required this.isSelected,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final activeColor = const Color(0xFF4F46E5);
+    final inactiveColor = const Color(0xFF94A3B8);
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: isSelected ? activeColor : inactiveColor,
+              size: 24,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? activeColor : inactiveColor,
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                fontFamily: 'Poppins',
+              ),
+            ),
           ],
         ),
       ),
