@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
+import 'package:number_gaminng_app/utils/app_size.dart';
 
 class AppOverlayHelper {
   static OverlayEntry? _overlayEntry;

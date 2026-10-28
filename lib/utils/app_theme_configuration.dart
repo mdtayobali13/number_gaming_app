@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/constant/app_constant.dart';
+import 'package:number_gaminng_app/constant/app_colors.dart';
+import 'package:number_gaminng_app/constant/app_constant.dart';
 
 class AppThemeConfiguration {
   ////////////// constructor

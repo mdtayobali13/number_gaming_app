@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/screens/auth_screen/sign_up_screen/provider/sign_up_provider.dart';
-import 'package:flutter_riverpod_template/screens/auth_screen/sign_up_verify_screen/provider/otp_verify_provider.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/utils/app_snack_bar.dart';
-import 'package:flutter_riverpod_template/utils/gap.dart';
-import 'package:flutter_riverpod_template/widgets/buttons/app_button.dart';
-import 'package:flutter_riverpod_template/widgets/inputs/app_input_widget_tow.dart';
+import 'package:number_gaminng_app/constant/app_colors.dart';
+import 'package:number_gaminng_app/screens/auth_screen/sign_up_screen/provider/sign_up_provider.dart';
+import 'package:number_gaminng_app/screens/auth_screen/sign_up_verify_screen/provider/otp_verify_provider.dart';
+import 'package:number_gaminng_app/utils/app_log.dart';
+import 'package:number_gaminng_app/utils/app_size.dart';
+import 'package:number_gaminng_app/utils/app_snack_bar.dart';
+import 'package:number_gaminng_app/utils/gap.dart';
+import 'package:number_gaminng_app/widgets/buttons/app_button.dart';
+import 'package:number_gaminng_app/widgets/inputs/app_input_widget_tow.dart';
 
 import '../../../constant/app_asserts_image_path.dart';
 import '../../../routes/app_routes.dart';

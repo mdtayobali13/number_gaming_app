@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/constant/app_asserts_image_path.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/constant/app_constant.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/utils/gap.dart';
-import 'package:flutter_riverpod_template/widgets/app_image/app_image.dart';
-import 'package:flutter_riverpod_template/widgets/buttons/app_button.dart';
-import 'package:flutter_riverpod_template/widgets/inputs/app_input_widget_tow.dart';
-import 'package:flutter_riverpod_template/widgets/texts/app_text.dart';
-import 'package:flutter_riverpod_template/screens/auth_screen/forgot_screen/screens/provider/forgot_reset_password_provider.dart';
+import 'package:number_gaminng_app/constant/app_asserts_image_path.dart';
+import 'package:number_gaminng_app/constant/app_colors.dart';
+import 'package:number_gaminng_app/constant/app_constant.dart';
+import 'package:number_gaminng_app/utils/app_size.dart';
+import 'package:number_gaminng_app/utils/gap.dart';
+import 'package:number_gaminng_app/widgets/app_image/app_image.dart';
+import 'package:number_gaminng_app/widgets/buttons/app_button.dart';
+import 'package:number_gaminng_app/widgets/inputs/app_input_widget_tow.dart';
+import 'package:number_gaminng_app/widgets/texts/app_text.dart';
+import 'package:number_gaminng_app/screens/auth_screen/forgot_screen/screens/provider/forgot_reset_password_provider.dart';
 
 class ForgotScreenPasswordInputScreen extends ConsumerWidget {
   const ForgotScreenPasswordInputScreen({

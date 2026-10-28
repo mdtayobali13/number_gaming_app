@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/routes/app_routes.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/utils/gap.dart';
-import 'package:flutter_riverpod_template/widgets/app_image/app_image.dart';
-import 'package:flutter_riverpod_template/widgets/buttons/app_button.dart';
-import 'package:flutter_riverpod_template/widgets/texts/app_text.dart';
+import 'package:number_gaminng_app/constant/app_colors.dart';
+import 'package:number_gaminng_app/routes/app_routes.dart';
+import 'package:number_gaminng_app/utils/app_size.dart';
+import 'package:number_gaminng_app/utils/gap.dart';
+import 'package:number_gaminng_app/widgets/app_image/app_image.dart';
+import 'package:number_gaminng_app/widgets/buttons/app_button.dart';
+import 'package:number_gaminng_app/widgets/texts/app_text.dart';
 
 class NotFoundScreen extends StatelessWidget {
   const NotFoundScreen({super.key});

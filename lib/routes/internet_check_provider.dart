@@ -2,13 +2,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
+import 'package:number_gaminng_app/utils/app_log.dart';
 
 const String _reachabilityUrl = 'clients3.google.com';
 const String _reachabilityPath = '/generate_204';
 
 Future<bool> _isActuallyOnline() async {
+  if (kIsWeb) return true;
   try {
     final client = HttpClient()..connectionTimeout = const Duration(seconds: 5);
     final request = await client.getUrl(Uri.http(_reachabilityUrl, _reachabilityPath));

@@ -7,7 +7,7 @@
 <!-- permission end  -->
    
     <application
-        android:label="flutter_riverpod_template"
+        android:label="number_gaminng_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true"

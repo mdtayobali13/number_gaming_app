@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/main_app_entry.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
+import 'package:number_gaminng_app/constant/app_colors.dart';
+import 'package:number_gaminng_app/main_app_entry.dart';
+import 'package:number_gaminng_app/utils/app_log.dart';
 
 Future<void> main() async {
   //////////////  flutter binding initialize
@@ -25,7 +25,9 @@ Future<void> main() async {
     ),
   );
   ////////////// network
-  HttpOverrides.global = MyHttpOverrides(); //// use when i work local with http
+  if (!kIsWeb) {
+    HttpOverrides.global = MyHttpOverrides(); //// use when i work local with http
+  }
 
   ////////////// .env file load
   try {

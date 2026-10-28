@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
+import 'package:number_gaminng_app/constant/app_colors.dart';
+import 'package:number_gaminng_app/utils/app_log.dart';
+import 'package:number_gaminng_app/utils/app_size.dart';
 
 class CustomCheckBoxButton extends StatefulWidget {
   const CustomCheckBoxButton({super.key, this.value, required this.onChange, this.color});

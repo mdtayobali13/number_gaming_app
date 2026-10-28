@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod_template/routes/app_routes.dart';
-import 'package:flutter_riverpod_template/routes/app_routes_key.dart';
-import 'package:flutter_riverpod_template/services/api/api.dart';
-import 'package:flutter_riverpod_template/services/storage/storage_services.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
-import 'package:flutter_riverpod_template/utils/app_snack_bar.dart';
+import 'package:number_gaminng_app/routes/app_routes.dart';
+import 'package:number_gaminng_app/routes/app_routes_key.dart';
+import 'package:number_gaminng_app/services/api/api.dart';
+import 'package:number_gaminng_app/services/storage/storage_services.dart';
+import 'package:number_gaminng_app/utils/app_log.dart';
+import 'package:number_gaminng_app/utils/app_snack_bar.dart';
 
 class ApiServices {
   ///////////////

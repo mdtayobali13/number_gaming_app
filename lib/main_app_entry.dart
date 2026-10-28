@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/error_handling_screen/error_screen/error_screen.dart';
-import 'package:flutter_riverpod_template/routes/app_routes.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/utils/app_theme.dart';
-import 'package:flutter_riverpod_template/utils/app_theme_configuration.dart';
-import 'package:flutter_riverpod_template/utils/observer/logger_ob_server.dart';
+import 'package:number_gaminng_app/error_handling_screen/error_screen/error_screen.dart';
+import 'package:number_gaminng_app/routes/app_routes.dart';
+import 'package:number_gaminng_app/utils/app_size.dart';
+import 'package:number_gaminng_app/utils/app_theme.dart';
+import 'package:number_gaminng_app/utils/app_theme_configuration.dart';
+import 'package:number_gaminng_app/utils/observer/logger_ob_server.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 final AppRoutes appRoutes = AppRoutes.instance;
@@ -51,7 +51,7 @@ class _MainAppState extends ConsumerState<MainApp> {
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       debugShowCheckedModeBanner: false,
       routerConfig: appRoutes.router,
-      title: "Flutter",
+      title: "number_gaminng_app",
       color: Colors.white,
       themeAnimationCurve: Curves.easeInOut,
       themeAnimationDuration: Duration.zero,

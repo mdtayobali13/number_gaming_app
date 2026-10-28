@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:flutter_riverpod_template/screens/base_screen/faq_screen/models/f_a_q_screen_data_model.dart';
-import 'package:flutter_riverpod_template/services/repository/base_repository.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
+import 'package:number_gaminng_app/screens/base_screen/faq_screen/models/f_a_q_screen_data_model.dart';
+import 'package:number_gaminng_app/services/repository/base_repository.dart';
+import 'package:number_gaminng_app/utils/app_log.dart';
 
 final fAQScreenProvider = StateNotifierProvider((ref) => _FAQScreenProvider());
 
